@@ -1,19 +1,18 @@
-import { Fragment } from "react/cjs/react.production.min";
 import classes from "./Header.module.css";
-import img from "../../assets/meals.jpg";
-import HeaderButton from "./HeaderButton";
+import img from "../../../assets/meals.jpg";
+import Button from "./Button/Button";
 
 const Header = props => {
   return (
-    <Fragment>
+    <>
       <header className={classes.header}>
         <h1>Meals</h1>
-        <HeaderButton />
+        <Button onClickBtn={props.onShowCart} />
       </header>
       <div className={classes['main-image']}>
         <img src={img} alt="meal" />
       </div>
-    </Fragment>
+    </>
   );
 }
 
