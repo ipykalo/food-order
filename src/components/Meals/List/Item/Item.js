@@ -1,6 +1,6 @@
-import classes from "./Meal.module.css";
+import classes from "./Item.module.css";
 
-const Meal = props => {
+const Item = props => {
   return (
     <li className={classes.meal}>
       <div>
@@ -13,4 +13,4 @@ const Meal = props => {
   );
 }
 
-export default Meal;
+export default Item;

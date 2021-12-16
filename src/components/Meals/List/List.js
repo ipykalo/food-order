@@ -1,6 +1,6 @@
 import classes from "./List.module.css";
 import Wrapper from "../../UI/Wrapper";
-import Meal from "./Meal/Meal";
+import Item from "./Item/Item";
 
 const DUMMY_MEALS = [
   {
@@ -29,15 +29,15 @@ const DUMMY_MEALS = [
   },
 ];
 
-const AvailableMeals = () => {
+const List = () => {
   const list = DUMMY_MEALS.map(item => (
-    <Meal
+    <Item
       key={item.id}
       name={item.name}
       description={item.description}
       price={item.price}
     >
-    </Meal>
+    </Item>
   ));
 
   return (
@@ -49,4 +49,4 @@ const AvailableMeals = () => {
   );
 }
 
-export default AvailableMeals;
+export default List;
