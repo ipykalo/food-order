@@ -6,7 +6,7 @@ const Modal = props => {
     <>
       <div className={classes.backdrop} onClick={props.onClickBackdrop}></div>
       <div className={classes.modal}>
-        <div className={classes.content}>{props.children}</div>
+        <div>{props.children}</div>
       </div>
     </>,
     document.getElementById('modal-root')
