@@ -1,5 +1,5 @@
 import classes from "./List.module.css";
-import Wrapper from "../../UI/Wrapper";
+import Wrapper from "../../UI/Wrapper/Wrapper";
 import Item from "./Item/Item";
 
 const DUMMY_MEALS = [
