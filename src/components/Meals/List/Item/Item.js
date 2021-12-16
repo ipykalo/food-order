@@ -1,4 +1,5 @@
 import classes from "./Item.module.css";
+import Form from "./Form/Form";
 
 const Item = props => {
   return (
@@ -8,7 +9,9 @@ const Item = props => {
         <p className={classes.description}>{props.description}</p>
         <p className={classes.price}>{props.price}</p>
       </div>
-      <div></div>
+      <div>
+        <Form />
+      </div>
     </li>
   );
 }
