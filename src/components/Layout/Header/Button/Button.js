@@ -1,10 +1,10 @@
-import CartIcon from "../../../Cart/CartIcon";
+import Icon from "./Icon/Icon";
 import classes from "./Button.module.css";
 
 const Button = props => {
   return (
     <button className={classes.button} onClick={props.onClickBtn}>
-      <span className={classes.icon}><CartIcon /></span>
+      <span className={classes.icon}><Icon /></span>
       <span>Cart</span>
       <span className={classes.badge}>3</span>
     </button>
