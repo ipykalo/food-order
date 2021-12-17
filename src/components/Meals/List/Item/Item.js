@@ -7,7 +7,7 @@ const Item = props => {
   const context = useContext(CratContext);
 
   const onAddToCart = amount => {
-    context.addItem({
+    context.onAdd({
       amount,
       id: props.id,
       name: props.name,
