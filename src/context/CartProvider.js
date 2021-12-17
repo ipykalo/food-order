@@ -5,7 +5,7 @@ const reducer = (state, action) => {
   if (action.type === 'ADD') {
     return {
       items: state.items.concat(action.item),
-      total: state.total + +(action.item.amount * action.item.price).toFixed(2)
+      total: +(state.total + action.item.amount * action.item.price).toFixed(2)
     }
   } else if (action.type === "REMOVE") {
     //TODO implemet
