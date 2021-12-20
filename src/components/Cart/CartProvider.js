@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import CratContext from "./cart";
+import CratContext from "../../context/cart";
 
 
 const reducer = (state, action) => {
