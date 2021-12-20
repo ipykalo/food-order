@@ -1,40 +1,50 @@
 import { useReducer } from "react";
 import CratContext from "../../context/cart";
 
+const add = (state, action) => {
+  const items = [].concat(state.items);
+  const index = items.findIndex(i => i.id === action.item.id);
+  index === -1 && items.push(action.item);
+
+  if (index > -1) {
+    items[index].amount += action.item.amount;
+  }
+
+  return {
+    items,
+    total: +(state.total + action.item.amount * action.item.price).toFixed(2)
+  }
+}
+
+const remove = (state, action) => {
+  const items = [...state.items];
+  for (let i = 0; i < items.length; i++) {
+    let item = items[i];
+
+    if (item.id === action.id) {
+      if (item.amount > 1) {
+        item.amount--;
+        break;
+      }
+      items.splice(i, 1);
+      break;
+    }
+  }
+  const total = items.reduce((totalValue, el) => {
+    return totalValue += el.price * el.amount
+  }, 0);
+
+  return {
+    items,
+    total: +(total).toFixed(2)
+  }
+}
 
 const reducer = (state, action) => {
   if (action.type === 'ADD') {
-    const items = [].concat(state.items);
-    const index = items.findIndex(i => i.id === action.item.id);
-    index === -1 && items.push(action.item);
-
-    if (index > -1) {
-      items[index].amount += action.item.amount;
-    }
-
-    return {
-      items,
-      total: +(state.total + action.item.amount * action.item.price).toFixed(2)
-    }
+    return add(state, action);
   } else if (action.type === "REMOVE") {
-    const items = state.items.map((el, i, arr) => {
-      if (el.id === action.id) {
-        if (el.amount > 1) {
-          el.amount--
-          return el;
-        }
-        arr.splice(i);
-      }
-      return el;
-    });
-    const total = items.reduce((totalValue, el) => {
-      return totalValue += el.price * el.amount
-    }, 0);
-
-    return {
-      items,
-      total: +(total).toFixed(2)
-    }
+    return remove(state, action);
   }
 }
 
