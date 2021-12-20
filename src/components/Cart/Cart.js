@@ -8,12 +8,10 @@ const Cart = props => {
   const ctxCart = useContext(CratContext);
 
   const onRemove = id => {
-    console.log(id, 'onRemove()')
     ctxCart.onRemove(id);
   }
 
   const onAdd = item => {
-    console.log(item, 'onAdd')
     ctxCart.onAdd({ ...item, amount: 1 });
   }
 

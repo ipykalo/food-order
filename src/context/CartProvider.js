@@ -1,8 +1,8 @@
 import { useReducer } from "react";
 import CratContext from "./cart";
 
+
 const reducer = (state, action) => {
-  console.log('reducer');
   if (action.type === 'ADD') {
     const items = [].concat(state.items);
     const index = items.findIndex(i => i.id === action.item.id);
@@ -16,29 +16,38 @@ const reducer = (state, action) => {
       items,
       total: +(state.total + action.item.amount * action.item.price).toFixed(2)
     }
+  } else if (action.type === "REMOVE") {
+    const items = state.items.map((el, i, arr) => {
+      if (el.id === action.id) {
+        if (el.amount > 1) {
+          el.amount--
+          return el;
+        }
+        arr.splice(i);
+      }
+      return el;
+    });
+    const total = items.reduce((totalValue, el) => {
+      return totalValue += el.price * el.amount
+    }, 0);
+
+    return {
+      items,
+      total: +(total).toFixed(2)
+    }
   }
 }
 
 const CartProvider = props => {
-  console.log('CartProvider')
-  const [ctxState, dispatch] = useReducer(reducer, {
+  const [ctxState, dispatchState] = useReducer(reducer, {
     items: [],
     total: 0
   });
 
-  const onAddItem = item => {
-    console.log(item, 'CartProvider => onAdd');
-    dispatch({ item, type: "ADD" });
-  }
-
-  const onRemoveItem = id => {
-    dispatch({ id, type: "REMOVE" });
-  }
-
   return (
     <CratContext.Provider value={{
-      onAdd: onAddItem,
-      onRemove: onRemoveItem,
+      onAdd: item => dispatchState({ item, type: "ADD" }),
+      onRemove: id => dispatchState({ id, type: "REMOVE" }),
       items: ctxState.items,
       total: ctxState.total
     }}>
