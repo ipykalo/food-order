@@ -17,6 +17,10 @@
   },
   "homepage": "https://github.com/ipykalo/Posts-MEAN#readme",
   "dependencies": {
+    "mongodb": "^4.2.2",
+    "mongoose": "^6.1.3"
+  },
+  "devDependencies": {
     "nodemon": "^2.0.15"
   }
 }
