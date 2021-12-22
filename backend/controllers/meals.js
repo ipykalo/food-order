@@ -1,9 +1,10 @@
 const Meal = require('../models/meal');
+const helper = require('../util/helper');
 
-exports.getMeals = (req, res) => {
-  Meal.find()
+exports.getMeals = (req, res, next) => {
+  Meal.find({})
     .then(meals => {
-      console.log(meals)
       res.json(meals);
     })
+    .catch(err => next(helper.logError(err, 'getMeals')));
 }
