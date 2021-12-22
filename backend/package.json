@@ -1,0 +1,22 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "food-order NodeJS server",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ipykalo/Posts-MEAN.git"
+  },
+  "author": "Ivan Pykalo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ipykalo/Posts-MEAN/issues"
+  },
+  "homepage": "https://github.com/ipykalo/Posts-MEAN#readme",
+  "dependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
