@@ -4,6 +4,7 @@ import Header from './components/Layout/Header/Header';
 import Meals from './components/Meals/Meals';
 import Cart from './components/Cart/Cart';
 import CartProvider from './components/Cart/CartProvider';
+import ErrorHandler from './components/UI/ErrorHandler/ErrorHandler';
 
 function App() {
   const [isShowCart, setShowCart] = useState(false);
@@ -13,11 +14,15 @@ function App() {
 
   return (
     <CartProvider>
-      {isShowCart && <Cart onClose={onHideCart} />}
-      <Header onShowCart={onShowCart} />
-      <main>
-        <Meals />
-      </main>
+      <ErrorHandler>
+        {isShowCart && <Cart onClose={onHideCart} />}
+        <Header onShowCart={onShowCart} />
+        <main>
+          <ErrorHandler>
+            <Meals />
+          </ErrorHandler>
+        </main>
+      </ErrorHandler>
     </CartProvider>
   );
 }

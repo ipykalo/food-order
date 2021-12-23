@@ -6,20 +6,29 @@ import Loading from "../UI/Loading/Loading";
 const Meals = () => {
   const [meals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch('http://localhost:4000/meals')
-      .then(resp => resp.json())
-      .then(meals => setMeals(meals))
-      .finally(() => setIsLoading(false));
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const resp = await fetch('http://localhost:4000/meals');
+        const meals = await resp.json();
+        setMeals(meals);
+      } catch (err) {
+        setIsError(true);
+      }
+      setIsLoading(false)
+    }
+    fetchData();
   }, []);
 
   return (
     <>
       <Summary />
-      {!isLoading && <List list={meals} />}
-      {!isLoading && !meals.length && <p>No meals found.</p>}
+      {!isLoading && meals.length && <List list={meals} />}
+      {!isLoading && !isError && !meals.length && <p>No meals found.</p>}
+      {!isLoading && isError && <h3>Failed to load.</h3>}
       {isLoading && <Loading />}
     </>
   );
