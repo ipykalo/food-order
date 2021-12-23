@@ -1,10 +1,12 @@
 import classes from "./Cart.module.css";
 import Modal from "../UI/Modal/Modal";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import CratContext from "../../context/cart";
 import Item from "./Item/Item";
+import Checkout from "./Checkout/Checkout";
 
 const Cart = props => {
+  const [isCheckout, setIsCheckout] = useState(false);
   const ctxCart = useContext(CratContext);
 
   const onRemove = id => {
@@ -31,6 +33,10 @@ const Cart = props => {
     );
   });
 
+  const onCheckout = () => {
+    setIsCheckout(true);
+  }
+
   return (
     <Modal onClickBackdrop={props.onClose}>
       <ul className={classes['cart-items']}>{items}</ul>
@@ -38,10 +44,11 @@ const Cart = props => {
         <span>Total Amount</span>
         <span>${ctxCart.total}</span>
       </div>
-      <div className={classes.actions}>
+      {isCheckout && <Checkout onCancel={props.onClose} />}
+      {!isCheckout && <div className={classes.actions}>
         <button className={classes['button--alt']} onClick={props.onClose}>Close</button>
-        <button className={classes.button}>Order</button>
-      </div>
+        <button className={classes.button} onClick={onCheckout} disabled={ctxCart.total === 0}>Order</button>
+      </div>}
     </Modal>
   );
 }
