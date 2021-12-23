@@ -5,8 +5,8 @@ import Item from "./Item/Item";
 const List = props => {
   const list = props.list.map(item => (
     <Item
-      key={item.id}
-      id={item.id}
+      key={item._id}
+      id={item._id}
       name={item.name}
       description={item.description}
       price={item.price}

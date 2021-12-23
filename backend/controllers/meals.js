@@ -2,7 +2,7 @@ const Meal = require('../models/meal');
 const helper = require('../util/helper');
 
 exports.getMeals = (req, res, next) => {
-  Meal.find({})
+  Meal.find()
     .then(meals => {
       res.json(meals);
     })
