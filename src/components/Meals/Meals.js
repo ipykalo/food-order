@@ -15,6 +15,7 @@ const Meals = () => {
         const resp = await fetch('http://localhost:4000/meals');
         const meals = await resp.json();
         setMeals(meals);
+        setIsError(false);
       } catch (err) {
         setIsError(true);
       }
