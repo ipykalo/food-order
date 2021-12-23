@@ -37,6 +37,14 @@ const Cart = props => {
     setIsCheckout(true);
   }
 
+  const submitForm = (userInfo) => {
+    const order = {
+      user: userInfo,
+      order: ctxCart.items.map(i => ({_id: i.id, amount: i.amount}))
+    }
+    console.log(order);
+  }
+
   return (
     <Modal onClickBackdrop={props.onClose}>
       <ul className={classes['cart-items']}>{items}</ul>
@@ -44,7 +52,7 @@ const Cart = props => {
         <span>Total Amount</span>
         <span>${ctxCart.total}</span>
       </div>
-      {isCheckout && <Checkout onCancel={props.onClose} />}
+      {isCheckout && <Checkout onCancel={props.onClose} onSubmit={submitForm} />}
       {!isCheckout && <div className={classes.actions}>
         <button className={classes['button--alt']} onClick={props.onClose}>Close</button>
         <button className={classes.button} onClick={onCheckout} disabled={ctxCart.total === 0}>Order</button>
