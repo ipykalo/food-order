@@ -5,6 +5,7 @@ const app = express();
 app.use(express.json());
 
 app.use(require('./routes/meals'));
+app.use(require('./routes/order'));
 
 app.use((error, req, res, next) => {
   if (error) {

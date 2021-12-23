@@ -38,11 +38,17 @@ const Cart = props => {
   }
 
   const submitForm = (userInfo) => {
-    const order = {
-      user: userInfo,
-      order: ctxCart.items.map(i => ({_id: i.id, amount: i.amount}))
-    }
-    console.log(order);
+    fetch('http://localhost:4000/order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ...userInfo,
+        order: ctxCart.items.map(i => ({ meal: i.id, amount: i.amount }))
+      })
+    })
+      .then(resp => console.log(resp));
   }
 
   return (
