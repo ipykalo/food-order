@@ -45,6 +45,11 @@ const reducer = (state, action) => {
     return add(state, action);
   } else if (action.type === "REMOVE") {
     return remove(state, action);
+  } else if (action.type === "CLEAR") {
+    return {
+      items: [],
+      total: 0
+    }
   }
 }
 
@@ -58,6 +63,7 @@ const CartProvider = props => {
     <CratContext.Provider value={{
       onAdd: item => dispatchState({ item, type: "ADD" }),
       onRemove: id => dispatchState({ id, type: "REMOVE" }),
+      onClear: () => dispatchState({ type: "CLEAR" }),
       items: ctxState.items,
       total: ctxState.total
     }}>

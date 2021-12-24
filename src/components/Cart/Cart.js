@@ -48,7 +48,11 @@ const Cart = props => {
         order: ctxCart.items.map(i => ({ meal: i.id, amount: i.amount }))
       })
     })
-      .then(resp => console.log(resp));
+      .then(resp => {
+        setIsCheckout(false);
+        ctxCart.onClear();
+        props.onClose();
+      });
   }
 
   return (
