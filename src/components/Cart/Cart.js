@@ -1,12 +1,13 @@
 import classes from "./Cart.module.css";
 import Modal from "../UI/Modal/Modal";
-import { useContext, useState } from "react";
+import { useContext, useState, Fragment } from "react";
 import CratContext from "../../context/cart";
 import Item from "./Item/Item";
 import Checkout from "./Checkout/Checkout";
 
 const Cart = props => {
   const [isCheckout, setIsCheckout] = useState(false);
+  const [isSuccessSubmit, setIsSuccessSubmit] = useState(false);
   const ctxCart = useContext(CratContext);
 
   const onRemove = id => {
@@ -48,25 +49,29 @@ const Cart = props => {
         order: ctxCart.items.map(i => ({ meal: i.id, amount: i.amount }))
       })
     })
-      .then(resp => {
-        setIsCheckout(false);
+      .then(() => {
         ctxCart.onClear();
-        props.onClose();
+        setIsSuccessSubmit(true);
       });
   }
 
+  const cartContent = <Fragment>
+    <ul className={classes['cart-items']}>{items}</ul>
+    <div className={classes.total}>
+      <span>Total Amount</span>
+      <span>${ctxCart.total}</span>
+    </div>
+    {isCheckout && <Checkout onCancel={props.onClose} onSubmit={submitForm} />}
+    {!isCheckout && <div className={classes.actions}>
+      <button className={classes['button--alt']} onClick={props.onClose}>Close</button>
+      <button className={classes.button} onClick={onCheckout} disabled={ctxCart.total === 0}>Order</button>
+    </div>}
+  </Fragment>
+
   return (
     <Modal onClickBackdrop={props.onClose}>
-      <ul className={classes['cart-items']}>{items}</ul>
-      <div className={classes.total}>
-        <span>Total Amount</span>
-        <span>${ctxCart.total}</span>
-      </div>
-      {isCheckout && <Checkout onCancel={props.onClose} onSubmit={submitForm} />}
-      {!isCheckout && <div className={classes.actions}>
-        <button className={classes['button--alt']} onClick={props.onClose}>Close</button>
-        <button className={classes.button} onClick={onCheckout} disabled={ctxCart.total === 0}>Order</button>
-      </div>}
+      {!isSuccessSubmit && cartContent}
+      {isSuccessSubmit && <h1>The Order successfuly submited!</h1>}
     </Modal>
   );
 }
