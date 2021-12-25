@@ -4,8 +4,9 @@ import classes from "./Login.module.css";
 import { setToken } from "../../../reducers/token";
 import useForm from "../../../hooks/use-form";
 import Modal from "../../UI/Modal/Modal";
+import { Link } from "react-router-dom";
 
-const Login = props => {
+const Login = () => {
   const model = {
     email: { value: '', valid: false, touched: false },
     password: { value: '', valid: false, touched: false }
@@ -106,14 +107,18 @@ const Login = props => {
             />
             {isInValid(state?.password) && <p>Password length should not be less then 5 chars.</p>}
           </div>
-          <div className="mt-5">
+          <div className={`${classes.link} mt-5`}>
             <button
               type="submit"
-              className="btn btn-primary"
+              className={classes.login}
               disabled={!state.email.valid || !state.password.valid}
             >
               Login
             </button>
+            <Link to={'/signup'}>Signup</Link>
+          </div>
+          <div className="mt-5">
+
           </div>
         </form>
       </div>
