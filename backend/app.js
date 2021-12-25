@@ -28,7 +28,7 @@ app.use((error, req, res, next) => {
     console.log(error, 'catched error')
     res.status(500).json({
       error,
-      msg: 'Server Failed'
+      message: 'Server Failed'
     });
   }
   next();

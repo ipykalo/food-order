@@ -18,8 +18,8 @@ const Login = () => {
 
   const onChangeInput = el => {
     const validators = {
-      email: val => val?.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
-      password: val => val?.length >= 5
+      email: (state, val) => val?.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
+      password: (state, val) => val?.length >= 5
     }
     dispatchForm({
       type: 'CHANGE',

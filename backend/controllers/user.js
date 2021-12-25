@@ -37,3 +37,27 @@ exports.login = (req, res, next) => {
     })
     .catch(err => next(helper.logError(err, 'login')));
 }
+
+exports.signup = (req, res, next) => {
+  User.findOne({ email: req.body.email })
+    .then(user => {
+      if (user) {
+        return res.status(403).json({ message: 'A user with the email already exist.' });
+      }
+      if (req.body.password !== req.body.confirmPassword) {
+        return res.status(400).json({ message: 'Passwords don\'t match' });
+      }
+      bcrypt.hash(req.body.password, 10)
+        .then(hashedPassword => {
+          const newUser = new User({
+            email: req.body.email,
+            password: hashedPassword
+          });
+          return newUser.save();
+        })
+        .then(() => {
+          res.status(201).json({ message: 'The user successfully created.' });
+        })
+    })
+    .catch(err => next(helper.logError(err, 'signup')));
+};

@@ -1,27 +1,28 @@
-import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import classes from "../Login/Login.module.css";
-import { setToken } from "../../../reducers/token";
 import useForm from "../../../hooks/use-form";
 import Modal from "../../UI/Modal/Modal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+const validators = {
+  email: (state, val) => val?.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
+  password: (state, val) => val?.length >= 5,
+  confirmPassword: (state, val) => state.password.value === val
+}
 
 const Signup = () => {
+  const inputRefs = [useRef(), useRef(), useRef()];
+  const navigate = useNavigate();
+
   const model = {
     email: { value: '', valid: false, touched: false },
     password: { value: '', valid: false, touched: false },
     confirmPassword: { value: '', valid: false, touched: false }
   }
   const { state, dispatch: dispatchForm } = useForm(model);
-
   const [submitFormState, setSubmitFormState] = useState({ error: null, success: null });
 
   const onChangeInput = el => {
-    const validators = {
-      email: (state, val) => val?.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/),
-      password: (state, val) => val?.length >= 5,
-      confirmPassword: (state, val) => state.password.value === val
-    }
     dispatchForm({
       type: 'CHANGE',
       name: el.currentTarget.name,
@@ -39,8 +40,39 @@ const Signup = () => {
     });
   }
 
+  const triggerTouched = () => {
+    for (let i = 0; i < inputRefs.length; i++) {
+      let input = inputRefs[i].current;
+
+      if (!state[input.name].valid) {
+        dispatchForm({
+          type: 'BLUR',
+          name: input.name,
+          value: input.value,
+          validator: () => { }
+        });
+      }
+    }
+  }
+
   const onSignup = event => {
     event.preventDefault();
+
+    if (state.confirmPassword.value !== state.password.value) {
+      dispatchForm({
+        type: 'CHANGE',
+        name: 'confirmPassword',
+        value: state.confirmPassword.value,
+        validator: validators['confirmPassword']
+      });
+      return;
+    }
+    const isValid = Object.values(state).every(el => el.valid);
+
+    if (!isValid) {
+      triggerTouched();
+      return
+    }
 
     fetch("http://localhost:4000/signup", {
       method: "POST",
@@ -65,7 +97,7 @@ const Signup = () => {
           return;
         }
         setSubmitFormState({ error: null, success: { title: 'Success', message: parsedResp.message } });
-        //setTimeout(() => dispatch(setToken(parsedResp.token)), 1000);
+        setTimeout(() => navigate('/login'), 1000);
       })
       .catch(err => setSubmitFormState({ error: { title: 'Error', message: err.message }, success: null }))
   }
@@ -86,6 +118,7 @@ const Signup = () => {
           <div className={`mb-3 ${getErrorClass(state?.email)}`}>
             <label htmlFor="email" className="form-label">Email address</label>
             <input
+              ref={inputRefs[0]}
               type="email"
               className="form-control"
               id="email"
@@ -99,6 +132,7 @@ const Signup = () => {
           <div className={getErrorClass(state?.password)}>
             <label htmlFor="password" className="form-label">Password</label>
             <input
+              ref={inputRefs[1]}
               type="password"
               id="password"
               className="form-control"
@@ -112,6 +146,7 @@ const Signup = () => {
           <div className={`${getErrorClass(state?.confirmPassword)} mt-3`}>
             <label htmlFor="confirm-password" className="form-label">Confirm Password</label>
             <input
+              ref={inputRefs[2]}
               type="password"
               id="confirm-password"
               className="form-control"

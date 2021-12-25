@@ -54,9 +54,9 @@ const Checkout = (props) => {
 
   const onSubmit = event => {
     event.preventDefault();
-    const isInvalid = Object.values(state).every(el => el.valid);
+    const isValid = Object.values(state).every(el => el.valid);
 
-    if (!isInvalid) {
+    if (!isValid) {
       triggerTouched();
       return
     }
