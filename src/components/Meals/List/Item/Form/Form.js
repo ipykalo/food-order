@@ -19,7 +19,7 @@ const Form = props => {
   }
 
   return (
-    <form onSubmit={onAddToCart}>
+    <form onSubmit={onAddToCart} className={classes.form}>
       <Input
         ref={inputRef}
         label="Amount"
