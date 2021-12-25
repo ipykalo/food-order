@@ -117,9 +117,6 @@ const Login = () => {
             </button>
             <Link to={'/signup'}>Signup</Link>
           </div>
-          <div className="mt-5">
-
-          </div>
         </form>
       </div>
       {(submitFormState.error || submitFormState.success) &&

@@ -9,7 +9,7 @@ const reducer = (state, action) => {
 
   if (action.type === 'CHANGE') {
     newState[action.name].value = action.value;
-    newState[action.name].valid = action.validator(action.value);
+    newState[action.name].valid = action.validator(state, action.value);
   }
   return newState;
 }
