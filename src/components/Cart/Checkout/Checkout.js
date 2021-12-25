@@ -1,19 +1,6 @@
-import { useReducer, useRef } from 'react';
+import { useRef } from 'react';
+import useForm from '../../../hooks/use-form';
 import classes from './Checkout.module.css';
-
-const reducer = (state, action) => {
-  const newState = JSON.parse(JSON.stringify(state));
-
-  if (action.type === 'BLUR') {
-    newState[action.name].touched = true;
-  }
-
-  if (action.type === 'CHANGE') {
-    newState[action.name].value = action.value;
-    newState[action.name].valid = !!action.value.trim();
-  }
-  return newState;
-}
 
 const Checkout = (props) => {
   const inputRefs = [useRef(), useRef(), useRef(), useRef()];
@@ -23,13 +10,14 @@ const Checkout = (props) => {
     postal: { value: '', valid: false, touched: false },
     city: { value: '', valid: false, touched: false }
   }
-  const [state, dispatch] = useReducer(reducer, model);
+  const {state, dispatch} = useForm(model);
 
   const onChangeInput = el => {
     dispatch({
       type: 'CHANGE',
       name: el.currentTarget.name,
-      value: el.currentTarget.value
+      value: el.currentTarget.value,
+      validator: val => !!val.trim()
     });
   }
 
@@ -37,7 +25,8 @@ const Checkout = (props) => {
     dispatch({
       type: 'BLUR',
       name: el.currentTarget.name,
-      value: el.currentTarget.value
+      value: el.currentTarget.value,
+      validator: () => { }
     });
   }
 

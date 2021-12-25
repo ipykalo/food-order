@@ -1,11 +1,27 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+const checkToken = require('./middlware/check-token');
 
+require('dotenv').config();
 app.use(express.json());
 
-app.use(require('./routes/meals'));
-app.use(require('./routes/order'));
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Request-With, Content-Type, Accept, Authorization"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+  );
+  next();
+});
+
+app.use(require('./routes/user'));
+app.use(checkToken, require('./routes/meals'));
+app.use(checkToken, require('./routes/order'));
 
 app.use((error, req, res, next) => {
   if (error) {

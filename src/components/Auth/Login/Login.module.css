@@ -8,3 +8,12 @@
   box-shadow: 10px 10px 20px 3px black;
   background-color: #eaeaea8c;
 }
+
+.invalid label, .invalid p {
+  color: #ca3e51;
+}
+
+.invalid input {
+  border-color: #aa0b20;
+  background-color: #ffeff1;
+}

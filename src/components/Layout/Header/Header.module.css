@@ -30,3 +30,8 @@ h1 {
   object-fit: cover;
   transform: rotateZ(-5deg) translateY(-4rem) translateX(-1rem);
 }
+
+.buttons {
+  display: flex;
+  margin-right: 50px;
+}

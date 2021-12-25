@@ -1,14 +1,17 @@
 import classes from "./Cart.module.css";
 import Modal from "../UI/Modal/Modal";
-import { useContext, useState, Fragment } from "react";
+import { useContext, useState } from "react";
 import CratContext from "../../context/cart";
 import Item from "./Item/Item";
 import Checkout from "./Checkout/Checkout";
+import { useSelector } from "react-redux";
 
 const Cart = props => {
   const [isCheckout, setIsCheckout] = useState(false);
   const [isSuccessSubmit, setIsSuccessSubmit] = useState(false);
   const ctxCart = useContext(CratContext);
+
+  const token = useSelector(state => state.token.value);
 
   const onRemove = id => {
     ctxCart.onRemove(id);
@@ -38,11 +41,12 @@ const Cart = props => {
     setIsCheckout(true);
   }
 
-  const submitForm = (userInfo) => {
+  const onSubmitForm = (userInfo) => {
     fetch('http://localhost:4000/order', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         ...userInfo,
@@ -55,24 +59,30 @@ const Cart = props => {
       });
   }
 
-  const cartContent = <Fragment>
-    <ul className={classes['cart-items']}>{items}</ul>
-    <div className={classes.total}>
-      <span>Total Amount</span>
-      <span>${ctxCart.total}</span>
-    </div>
-    {isCheckout && <Checkout onCancel={props.onClose} onSubmit={submitForm} />}
-    {!isCheckout && <div className={classes.actions}>
-      <button className={classes['button--alt']} onClick={props.onClose}>Close</button>
-      <button className={classes.button} onClick={onCheckout} disabled={ctxCart.total === 0}>Order</button>
-    </div>}
-  </Fragment>
-
   return (
-    <Modal onClickBackdrop={props.onClose}>
-      {!isSuccessSubmit && cartContent}
-      {isSuccessSubmit && <h1>The Order successfuly submited!</h1>}
-    </Modal>
+    <>
+      {
+        !isSuccessSubmit &&
+        <Modal>
+          <ul className={classes['cart-items']}>{items}</ul>
+          <div className={classes.total}>
+            <span>Total Amount</span>
+            <span>${ctxCart.total}</span>
+          </div>
+          {isCheckout && <Checkout onCancel={props.onClose} onSubmit={onSubmitForm} />}
+          {!isCheckout && <div className={classes.actions}>
+            <button className={classes['button--alt']} onClick={props.onClose}>Close</button>
+            <button className={classes.button} onClick={onCheckout} disabled={ctxCart.total === 0}>Order</button>
+          </div>}
+        </Modal>
+      }
+      {
+        isSuccessSubmit &&
+        <Modal onClickBackdrop={props.onClose}>
+          <h1>The Order successfuly submited!</h1>
+        </Modal>
+      }
+    </>
   );
 }
 

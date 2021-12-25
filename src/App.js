@@ -12,7 +12,9 @@ function App() {
   const [isShowCart, setShowCart] = useState(false);
   const token = useSelector(state => state.token.value);
 
-  const onShowCart = () => setShowCart(true);
+  const onShowCart = () => {
+    setShowCart(true)
+  };
   const onHideCart = () => setShowCart(false);
 
   const loginPage = (
