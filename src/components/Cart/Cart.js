@@ -11,7 +11,7 @@ const Cart = props => {
   const [isSuccessSubmit, setIsSuccessSubmit] = useState(false);
   const ctxCart = useContext(CratContext);
 
-  const token = useSelector(state => state.token.value);
+  const tokenData = useSelector(state => state.token.tokenData);
 
   const onRemove = id => {
     ctxCart.onRemove(id);
@@ -46,7 +46,7 @@ const Cart = props => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${tokenData.token}`
       },
       body: JSON.stringify({
         ...userInfo,

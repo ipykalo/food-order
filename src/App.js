@@ -10,7 +10,8 @@ import Login from './components/Auth/Login/Login';
 
 function App() {
   const [isShowCart, setShowCart] = useState(false);
-  const token = useSelector(state => state.token.value);
+  const tokenData = useSelector(state => state.token.tokenData);
+  const isTokenExpired = !tokenData || new Date() >= new Date(tokenData.expiresIn);
 
   const onShowCart = () => {
     setShowCart(true)
@@ -39,8 +40,8 @@ function App() {
 
   return (
     <>
-      {!token && loginPage}
-      {token && app}
+      {isTokenExpired && loginPage}
+      {!isTokenExpired && app}
     </>
   );
 }

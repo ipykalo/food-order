@@ -9,7 +9,7 @@ const Meals = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const token = useSelector(state => state.token.value);
+  const tokenData = useSelector(state => state.token.tokenData);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,7 +17,7 @@ const Meals = () => {
         setIsLoading(true);
         const resp = await fetch('http://localhost:4000/meals', {
           headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${tokenData.token}`
           }
         });
         const meals = await resp.json();
