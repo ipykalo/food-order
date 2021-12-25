@@ -1,11 +1,15 @@
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import classes from "./Login.module.css";
+import { login } from "../../../reducers/token";
 
 const Login = props => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onLogin = event => {
     event.preventDefault();
+    dispatch(login());
     //navigate("/")
   }
 
@@ -13,7 +17,7 @@ const Login = props => {
     <div className={classes.container}>
       <h3>Login</h3>
       <form className="mt-5" onSubmit={onLogin}>
-        <div class="mb-3">
+        <div className="mb-3">
           <label htmlFor="email" className="form-label">Email address</label>
           <input type="email" className="form-control" id="email" placeholder="name@example.com" />
         </div>
