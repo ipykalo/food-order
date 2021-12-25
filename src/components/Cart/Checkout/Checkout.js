@@ -17,7 +17,7 @@ const Checkout = (props) => {
       type: 'CHANGE',
       name: el.currentTarget.name,
       value: el.currentTarget.value,
-      validator: val => !!val.trim()
+      validator: (state, val) => !!val.trim()
     });
   }
 
