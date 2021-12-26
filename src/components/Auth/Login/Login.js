@@ -64,7 +64,7 @@ const Login = () => {
         }
         setSubmitFormState({ error: null, success: { title: 'Success', message: parsedResp.message } });
         setTimeout(() => {
-          dispatch(setToken({ token: parsedResp.token, expiresIn: parsedResp.expiresIn }))
+          dispatch(setToken({ token: parsedResp.token, expiresAt: parsedResp.expiresAt, timestamp: parsedResp.timestamp }));
         }, 1000);
       })
       .catch(err => setSubmitFormState({ error: { title: 'Error', message: err.message }, success: null }))

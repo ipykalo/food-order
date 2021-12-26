@@ -26,13 +26,14 @@ exports.login = (req, res, next) => {
         {
           email: req.body.email,
           userId: fetchedUser._id,
-          exp: 60 * 60 * 1000
+          exp: Math.floor(Date.now() / 1000) + (60 * 60)
         },
         process.env.JWT_KEY
       );
       res.status(200).json({
         token,
-        expiresIn: Date.now() + 60000,
+        expiresAt: 60 * 60,
+        timestamp: Date.now(),
         message: 'Logined successfuly.'
       });
     })
