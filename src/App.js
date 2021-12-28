@@ -12,7 +12,7 @@ function App() {
   const [isShowCart, setShowCart] = useState(false);
   const tokenData = useSelector(state => state.token.tokenData);
   const diff = (Date.now() - tokenData?.timestamp) / 1000;
-  const isActiveToken = !tokenData || diff < tokenData.expiresAt;
+  const isActiveToken = tokenData ? diff < tokenData.expiresAt : false;
 
   const onShowCart = () => {
     setShowCart(true)

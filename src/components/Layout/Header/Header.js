@@ -5,7 +5,7 @@ import { removeToken } from "../../../reducers/token";
 import { useDispatch, useSelector } from "react-redux";
 
 const Header = props => {
-  const token = useSelector(state => state.token.value);
+  const token = useSelector(state => state.token.tokenData.token);
   const dispatch = useDispatch();
 
   const onLogout = () => {
