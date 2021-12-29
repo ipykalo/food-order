@@ -29,7 +29,7 @@ const Meals = () => {
       setIsLoading(false)
     }
     fetchData();
-  }, []);
+  }, [tokenData.token]);
 
   return (
     <>
