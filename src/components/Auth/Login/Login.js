@@ -4,7 +4,7 @@ import classes from "./Login.module.css";
 import { setToken } from "../../../reducers/token";
 import useForm from "../../../hooks/use-form";
 import Modal from "../../UI/Modal/Modal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const model = {
@@ -13,6 +13,7 @@ const Login = () => {
   }
   const { state, dispatch: dispatchForm } = useForm(model);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [submitFormState, setSubmitFormState] = useState({ error: null, success: null });
 
@@ -65,6 +66,7 @@ const Login = () => {
         setSubmitFormState({ error: null, success: { title: 'Success', message: parsedResp.message } });
         setTimeout(() => {
           dispatch(setToken({ token: parsedResp.token, expiresAt: parsedResp.expiresAt, timestamp: parsedResp.timestamp }));
+          navigate('/');
         }, 1000);
       })
       .catch(err => setSubmitFormState({ error: { title: 'Error', message: err.message }, success: null }))
