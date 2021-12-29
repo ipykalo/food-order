@@ -25,7 +25,7 @@ function App() {
     </ErrorHandler>
   );
 
-  const app = (
+  const mainPage = (
     <CartProvider>
       <ErrorHandler>
         {isShowCart && <Cart onClose={onHideCart} />}
@@ -42,7 +42,7 @@ function App() {
   return (
     <>
       {!isActiveToken && loginPage}
-      {isActiveToken && app}
+      {isActiveToken && mainPage}
     </>
   );
 }

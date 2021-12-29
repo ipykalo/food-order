@@ -7,9 +7,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import store from "./store/index";
 import Login from './components/Auth/Login/Login';
 import Signup from './components/Auth/Signup/Signup';
-import store from "./store/index";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -17,8 +17,8 @@ ReactDOM.render(
       <Provider store={store}>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="login" element={<Login />} />
-          <Route path="signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </Provider>
     </React.StrictMode>
