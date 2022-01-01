@@ -5,7 +5,7 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from "./store/index";
 
@@ -21,6 +21,7 @@ ReactDOM.render(
             <Route path="/" element={<App />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
+            <Route path="*" element={<App />}></Route>
           </Routes>
         </Suspense>
       </Provider>
